@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
 
-  <input type="hidden" name="shared_index_name_holder">
+
 
   <form id="indexChoosingForm">
     <select id="index">
@@ -15,6 +17,37 @@
     <button type="button" id="submit-index">Generate For Index</button>
   </form>
 
+  
+  <hr>
+  <div name="sort-by-column" style="display: none;">
+    <label>Sort By Column:</label>
+    <select id="select-sort-column">
+      <!-- Column options will be dynamically added here -->
+    </select>
+
+    <label >Sort Type</label>
+    <select id="select-sort-order">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+
+    <label>Select Size</label>
+    <select id="sizePerPage">
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300">300</option>
+      <option value="400">400</option>
+      <option value="500">500</option>
+      <option value="1000">1000</option>
+      <option value="2000">2000</option>
+      <option value="3000">3000</option>
+      <option value="4000">4000</option>
+      <option value="5000">5000</option>
+    </select>
+
+  </div>
+  <hr>
+
   <!-- I am making this filter form visible at the end of the initial filter creation -->
   <form id="filter-form" style="display:none;">
     <div id="filter-tab">
@@ -22,6 +55,16 @@
     </div>
     <button type="button" id="submit-filter">Apply filters</button>
   </form>
+
+
+  <hr>
+
+  <button id="prev-page" style="display:none;">Previous Page</button>
+  <button id="next-page" style="display:none;">Next Page</button>
+
+
+  <hr>
+
 
   <h1>Dynamic Data Table</h1>
     <table id="dataTable">
@@ -42,7 +85,7 @@
  <script src="tableCreationHandler.js"></script>
  <script src="makeRequestByProvidingBody.js"></script>
 <script src="filterColumnChangeEventHandler.js"></script>
-
+<script src="paginationHandler.js"></script>
 
 </body>
 </html>

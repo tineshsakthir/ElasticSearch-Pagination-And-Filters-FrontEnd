@@ -30,10 +30,20 @@ const fetchIndexMappingsAndKeepThere = async (index_name) => {
 const createMappingsObject = (index_name, data) => {
   const properties = data.mappings[index_name].mappings._doc.properties;
   const mappings = {};
-
   Object.keys(properties).forEach((key) => {
     mappings[key] = properties[key].type;
+
+
+    // Add options to the sorting div
+    const option = document.createElement("option");
+    option.value = key;
+    option.textContent = key;
+    // select id  = select-sort-column
+    document.getElementById("select-sort-column").appendChild(option);
   });
+
+  // make  <div name="sort-by-column" style="display: none;"> visible now
+  document.querySelector("div[name='sort-by-column']").style.display = "block";
 
   return mappings;
 }

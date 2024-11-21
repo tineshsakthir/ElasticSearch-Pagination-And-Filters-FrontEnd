@@ -32,6 +32,8 @@ const createFilterDiv = (headers) => {
 
   // Create the column select element
   const columnSelect = document.createElement("select");
+  // attaching the handler for change value of column
+  columnSelect.onchange = () => updateConditionAndInputHandlerByColumn(columnSelect) ; 
   columnSelect.name = "column";
   headers.forEach((header) => {
     const option = document.createElement("option");
@@ -46,6 +48,9 @@ const createFilterDiv = (headers) => {
 
   // Create the condition select element using the headerrs first element for initial loading
   const conditionSelect = document.createElement("select");
+    // attaching the handler for change value of condition select
+  conditionSelect.onchange = () => updateInputHandlerByCondition(conditionSelect) ;
+
   conditionSelect.name = "condition";
   const conditions = getColumnTypeToConditionMap()[FIRST_HEADER_TYPE];
 
@@ -66,6 +71,7 @@ const createFilterDiv = (headers) => {
 
   // Initial element creating, but fixing the type dynamically....
   const valueInput = document.createElement("input");
+  valueInput.required = true;
   valueInput.name = "value";
 
   if(FIRST_HEADER_TYPE === TEXT || FIRST_HEADER_TYPE === KEYWORD){
@@ -73,7 +79,7 @@ const createFilterDiv = (headers) => {
   }else if(FIRST_HEADER_TYPE === LONG){
     valueInput.type = "number" ; 
   }else if(FIRST_HEADER_TYPE === DATE){
-    valueInput.type = "date";
+    valueInput.type = "datetime-local";
   }
 
   
@@ -177,5 +183,145 @@ const updateRemoveButtonsVisibility = () => {
 // End : Filter "Creation, Deletion, Updation of removal button" code section
 
 
+const TEXT = "text" ; 
+const LONG = "long" ;
+const KEYWORD = "keyword" ;
+const DATE = "date" ; 
 
 
+// handler that handles the change of column in the filter tab
+// This is the handler that is called when ever the column is changed in the filter tab
+const addConditionAndInputToThisColumnSelect = (columnSelect) => {
+  const COLUMN_HEADER_NAME = columnSelect.value ;
+  const COLUMN_HEADER_TYPE = getIndexToColumnMap()[COLUMN_HEADER_NAME] ; 
+
+
+    // Create the condition select element using the headerrs first element for initial loading
+    const conditionSelect = document.createElement("select");
+    conditionSelect.onchange = () => updateInputHandlerByCondition(conditionSelect) ;
+    conditionSelect.name = "condition";
+    const conditions = getColumnTypeToConditionMap()[COLUMN_HEADER_TYPE];
+  
+    conditions.forEach((condition) => {
+      const option = document.createElement("option");
+      option.value = condition;
+      option.textContent = condition;
+      conditionSelect.appendChild(option);
+    });
+  
+  
+  // Create the input field using the condiitions first elemnt for initial loading
+  
+    
+  
+    // Initial element creating, but fixing the type dynamically....
+    const valueInput = document.createElement("input");
+    valueInput.required = true;
+    valueInput.name = "value";
+  
+    if(COLUMN_HEADER_TYPE === TEXT || COLUMN_HEADER_TYPE === KEYWORD){
+      valueInput.type = "text";
+    }else if(COLUMN_HEADER_TYPE === LONG){
+      valueInput.type = "number" ; 
+    }else if(COLUMN_HEADER_TYPE === DATE){
+      valueInput.type = "datetime-local";
+    }
+
+    columnSelect.insertAdjacentElement("afterend", valueInput) ;
+    columnSelect.insertAdjacentElement("afterend", conditionSelect) ; 
+
+    console.log("Added Condition Select : " , conditionSelect) ;
+    console.log("Added Value Input : " , valueInput) ;
+}
+
+
+const updateConditionAndInputHandlerByColumn = (columnSelect) => {
+
+  console.log("Into column select handler") ;
+  // removing phase. Select your two siblings and kill them
+
+  const conditionSelect = columnSelect.nextElementSibling; 
+  const valueInput = conditionSelect.nextElementSibling; 
+
+  console.log(" conditionSelect Sibling That is going to be removed : " , conditionSelect) ;
+  console.log(" valueInput Sibling That is going to be removed : " , valueInput) ;
+
+
+  conditionSelect.remove() ; 
+  valueInput.remove() ; 
+
+  // Adding new elements phase
+  // Now need to get the type of column value that is curretly in the columnSelect
+
+  addConditionAndInputToThisColumnSelect(columnSelect) ;
+
+}
+
+
+
+const addInputToThisConditionSelect = (conditionSelect) => {
+  const COLUMN_HEADER_NAME = conditionSelect.previousElementSibling.value ;
+  const COLUMN_HEADER_TYPE = getIndexToColumnMap()[COLUMN_HEADER_NAME] ; 
+  const CONDITION_NAME = conditionSelect.value ;
+
+  if(CONDITION_NAME === "BETWEEN" || CONDITION_NAME === "NOT BETWEEN"){
+    const span = document.createElement("span") ;
+    span.name = "value";
+
+    const from = document.createElement("input") ;
+    from.required = true;
+    from.name = "from" ;
+    const to = document.createElement("input") ;
+    to.required = true;
+    to.name = "to" ;
+
+    if(COLUMN_HEADER_TYPE === DATE){
+      from.type = "datetime-local" ;
+      to.type = "datetime-local" ;
+    }
+    else if(COLUMN_HEADER_TYPE === LONG){
+      from.type = "number" ;
+      to.type = "number" ;
+    }
+    span.appendChild(from) ;
+    span.appendChild(to) ;
+    conditionSelect.insertAdjacentElement("afterend", span) ;
+    console.log("Added span : " , span) ;
+  }else{
+    const valueInput = document.createElement("input");
+    valueInput.required = true;
+    valueInput.name = "value";
+    
+    if(COLUMN_HEADER_TYPE === TEXT || COLUMN_HEADER_TYPE === KEYWORD){
+      valueInput.type = "text";
+    }
+    else if(COLUMN_HEADER_TYPE === LONG){
+      valueInput.type = "number" ; 
+    }
+    else if(COLUMN_HEADER_TYPE === DATE){
+      valueInput.type = "datetime-local";
+    }
+    if(CONDITION_NAME === "IS EMPTY" || CONDITION_NAME === "IS NOT EMPTY"){
+      valueInput.disabled = true ; 
+    }
+    conditionSelect.insertAdjacentElement("afterend", valueInput) ;
+    console.log("Added Value Input : " , valueInput) ;
+  }
+}
+
+const updateInputHandlerByCondition = (conditionSelect) => {  
+  // removing phase. Select your next one sibling and remove it
+  // You next sibling may be a input box or a span[which is from BETWEEN AND NOT BETWEEN case, that is applicable for date and long]
+
+  console.log("Into condition select handler") ;
+
+  const valueInput = conditionSelect.nextElementSibling ;
+  console.log("Sibling That is going to be removed : " , valueInput) ; 
+  valueInput.remove() ;
+
+  // Adding new elements phase
+
+  // Now need to get the type of column value that is curretly in the columnSelect
+  addInputToThisConditionSelect(conditionSelect) ;
+
+}

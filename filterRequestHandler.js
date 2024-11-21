@@ -5,8 +5,10 @@ document.getElementById("submit-filter").addEventListener("click", async () => {
   const index_name = getIndexName();
 
   // Convert data to JSON
-  const requestData = { size : 100, filters : filters, index_name : index_name, relations : relations };
-  const parsedData = await getResponseWithThisBody(requestData) ; 
+  const requestData = { size : getSizePerPage(), filters : filters, index_name : index_name, relations : relations, indexToColumnTypeMap : getIndexToColumnMap() };
+  console.log("Requested Data : ", requestData) ;
+  const flagToResetPagination = true ;
+  const parsedData = await getResponseWithThisBody(requestData, flagToResetPagination) ; 
   if(parsedData){
     console.log(`parsed Data : ${parsedData}`) ; 
     let shouldDemolishCurrentFilterAndCreateNewFitler = false ; // While filtering i don't need to re create the filter tab.
@@ -23,11 +25,22 @@ const getFiltersAsArray = () => {
   document.querySelectorAll("#filter-tab .filter").forEach((filter) => {
     const column = filter.querySelector("select[name='column']").value;
     const condition = filter.querySelector("select[name='condition']").value;
-    const value = filter.querySelector("input[name='value']").value;
 
-    if (column && condition && value) {
-      filters.push({ column, condition, value });
+    if(condition === "BETWEEN" || condition === "NOT BETWEEN"){
+      const from = filter.querySelector("input[name='from']").value;
+      const to = filter.querySelector("input[name='to']").value;
+      if (column && condition && from && to) {
+        filters.push({ column, condition, from, to });
+      }
     }
+
+    else{
+      const value = filter.querySelector("input[name='value']").value;
+      if (column && condition && value) {
+        filters.push({ column, condition, value });
+      }
+    }
+
   });
 
   return filters ; 
@@ -51,5 +64,4 @@ const getRelationsBetweenFilters = () => {
 
   return relations ; 
 }
-
 

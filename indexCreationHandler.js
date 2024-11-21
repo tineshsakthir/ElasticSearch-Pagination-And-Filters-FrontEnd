@@ -75,10 +75,12 @@ document.getElementById("submit-index").addEventListener("click", async () => {
   }
 
   await fetchIndexMappingsAndKeepThere(index_name) ; 
+  
 
   // Convert data to JSON
-  const requestData = { size: 100, index_name: index_name };
-  const parsedData = await getResponseWithThisBody(requestData) ; 
+  const requestData = { size: getSizePerPage(), index_name: index_name };
+  const flagToResetPagination = true ;
+  const parsedData = await getResponseWithThisBody(requestData, flagToResetPagination) ; 
 
   if(parsedData){
     console.log( "parsed Data : ", parsedData) ;

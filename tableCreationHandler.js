@@ -45,6 +45,10 @@ const createTable = (data, shouldDemolishCurrentFilterAndCreateNewFitler) => {
     tableHeaders.appendChild(th);
   });
 
+  let dataSize = data.length ;
+
+  const sortColumn = document.getElementById("select-sort-column").value;
+
   // Populate the table rows dynamically
   data.forEach((item) => {
     const row = document.createElement("tr");
@@ -57,12 +61,19 @@ const createTable = (data, shouldDemolishCurrentFilterAndCreateNewFitler) => {
       row.appendChild(cell);
     });
 
+    dataSize = dataSize - 1 ;
+    // If the last row is reached, then add the last row's sort column value to the search_after array
+    if(dataSize === 0){
+      const lastRowSortColumnValue = source[sortColumn] ; 
+      console.log("Last Row Sort Column Value : ", lastRowSortColumnValue) ; 
+      addLastRowSortColumnValueToSearchAfterArray(lastRowSortColumnValue) ; 
+    }
+
     // Append the row to the table body
     tableBody.appendChild(row);
   });
+
 };
-
-
 
 
 const getHeaders = (data) => {
@@ -87,3 +98,8 @@ const getHeaders = (data) => {
 };
 
 // End : Table Creation
+
+
+
+// Put last row's sort column value in the search_after array in the correct page
+
