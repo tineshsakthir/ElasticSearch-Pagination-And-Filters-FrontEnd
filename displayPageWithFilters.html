@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+  <input type="hidden" name="shared_index_name_holder">
+
+  <form id="indexChoosingForm">
+    <select id="index">
+      <!-- Index options will be dynamically added here -->
+    </select>
+    <button type="button" id="submit-index">Generate For Index</button>
+  </form>
+
+  <!-- I am making this filter form visible at the end of the initial filter creation -->
+  <form id="filter-form" style="display:none;">
+    <div id="filter-tab">
+      <!-- Filters will be dynamically added here -->
+    </div>
+    <button type="button" id="submit-filter">Apply filters</button>
+  </form>
+
+  <h1>Dynamic Data Table</h1>
+    <table id="dataTable">
+        <thead>
+            <tr id="tableHeaders">
+                <!-- Headers will be dynamically added here -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+ <script src="filterCreationDeleteHandler.js"></script>
+ <script src="filterRequestHandler.js"></script>
+ <script src="indexCreationHandler.js"></script>
+ <script src="fetchIndexMappingAndCreateObject.js"></script>
+ <script src="tableCreationHandler.js"></script>
+ <script src="makeRequestByProvidingBody.js"></script>
+<script src="filterColumnChangeEventHandler.js"></script>
+
+
+</body>
+</html>
