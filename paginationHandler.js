@@ -3,6 +3,7 @@ let totalPages = 0 ;
 let totalHits = 0 ;
 
 let search_after = [] ; 
+let search_after_id_array = [] ; 
 
 const setTotalPages = (totalPages) => {
   totalPages = totalPages ; 
@@ -50,6 +51,7 @@ const handleViewOfButtons = () => {
 const resetPagination = (parsedData) => {
   pageNumber = 1 ; 
   search_after = [] ;
+  search_after_id_array = [] ;
   handleViewOfButtons() ;
 }
 
@@ -60,15 +62,28 @@ const addLastRowSortColumnValueToSearchAfterArray = (lastRowSortColumnValue) => 
   }
 }
 
+const addLastRowIdToSearchAfterIdArray = (lastElementId) => { 
+  if(search_after_id_array.length < pageNumber){
+    search_after_id_array.push(lastElementId) ;
+  }
+}
+
 
 nextPageBtn.addEventListener("click", async () => {
   incrementPageNumber() ; 
   const filters = getFiltersAsArray() ; 
   const index_name = getIndexName() ; 
   const relations = getRelationsBetweenFilters() ; 
-  const requestData = {size : getSizePerPage(), index_name : index_name, filters : filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap(), search_after : search_after[pageNumber-2] } ; 
+  console.log("search After Value : " ,  search_after[pageNumber-2] ) ; 
+  const requestData = {size : getSizePerPage(), index_name : index_name, filters : filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap(), search_after : search_after[pageNumber-2], search_after_id: search_after_id_array[pageNumber-2]} ; 
   const flagToResetPagination = false ;
   const parsedData = await getResponseWithThisBody(requestData, flagToResetPagination) ; 
+  if(parsedData.length){
+    nextPageBtn.style.display = "block" ;
+  } else {
+    nextPageBtn.style.display = "none" ;
+  }
+
   if(parsedData){
     console.log(`parsed Data : ${parsedData}`) ; 
     let shouldDemolishCurrentFilterAndCreateNewFitler = false ; // While filtering i don't need to re create the filter tab.
@@ -79,7 +94,8 @@ nextPageBtn.addEventListener("click", async () => {
     return ; 
   }
 
-  console.log("Search After : ", search_after) ;
+  console.log("Search After Array : ", search_after) ;
+  console.log("Search After Id Array : ", search_after_id_array) ;
 })
 
 prevPageBtn.addEventListener("click", async () => {
@@ -87,9 +103,10 @@ prevPageBtn.addEventListener("click", async () => {
   const filters = getFiltersAsArray() ; 
   const index_name = getIndexName() ; 
   const relations = getRelationsBetweenFilters() ; 
-  const requestData = { size: getSizePerPage(), index_name, filters, relations , indexToColumnTypeMap : getIndexToColumnMap()} ;
+  const requestData = { size: getSizePerPage(), index_name: index_name , filters: filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap()} ;
   if(pageNumber !== 1){
-    requestData.search_after = search_after[pageNumber-1] ;
+    requestData.search_after = search_after[pageNumber-2] ;
+    requestData.search_after_id = search_after_id_array[pageNumber-2] ;
   }
   const flagToResetPagination = false ;
   const parsedData = await getResponseWithThisBody(requestData, flagToResetPagination) ; 
@@ -103,7 +120,8 @@ prevPageBtn.addEventListener("click", async () => {
     return ; 
   }
 
-  console.log("Search After : ", search_after) ;
+  console.log("Search After Array : ", search_after) ;
+  console.log("Search After Id Array : ", search_after_id_array) ;
 })
 
 

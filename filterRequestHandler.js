@@ -35,8 +35,10 @@ const getFiltersAsArray = () => {
     }
 
     else{
-      const value = filter.querySelector("input[name='value']").value;
+      const value = filter.querySelector("input[name='value']").value ?? "";
       if (column && condition && value) {
+        filters.push({ column, condition, value });
+      }else if(column && condition && condition === "IS EMPTY" || condition === "IS NOT EMPTY"){  
         filters.push({ column, condition, value });
       }
     }

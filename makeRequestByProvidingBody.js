@@ -33,7 +33,7 @@ const getResponseWithThisBody = async(requestData, flagToResetPagination) => {
       }
 
       console.log("Response Data:", parsedData);
-      alert("Filters applied successfully. Check console for response.");
+      // alert("Filters applied successfully. Check console for response.");
       return parsedData ;
     } else {
       const errorResponse = await response.json();
@@ -68,3 +68,4 @@ const getSortingColumn = () => {
 const getSortingOrder = () => {
   return document.getElementById("select-sort-order").value ; 
 }
+

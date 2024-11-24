@@ -15,6 +15,8 @@ const createTable = (data, shouldDemolishCurrentFilterAndCreateNewFitler) => {
   // Clear the table body
   tableBody.innerHTML = "";
 
+  console.log("Hey, seriously the table is rebuiled. But i think the search after is not working properly") ;
+
   if(data.length === 0){
     console.log("No data : No Table") ; 
     return ; 
@@ -49,6 +51,13 @@ const createTable = (data, shouldDemolishCurrentFilterAndCreateNewFitler) => {
 
   const sortColumn = document.getElementById("select-sort-column").value;
 
+  // if(data.length === 0){
+  //   console.log("No Data : No Table") ; 
+  //   return ; 
+  // }else{
+
+  // }
+
   // Populate the table rows dynamically
   data.forEach((item) => {
     const row = document.createElement("tr");
@@ -67,6 +76,12 @@ const createTable = (data, shouldDemolishCurrentFilterAndCreateNewFitler) => {
       const lastRowSortColumnValue = source[sortColumn] ; 
       console.log("Last Row Sort Column Value : ", lastRowSortColumnValue) ; 
       addLastRowSortColumnValueToSearchAfterArray(lastRowSortColumnValue) ; 
+
+      // Get the last element id and put it in the search_after_id_array
+      const lastElementId = item.id ;
+      console.log("Last Element Id : ", lastElementId) ;
+      addLastRowIdToSearchAfterIdArray(lastElementId) ;
+
     }
 
     // Append the row to the table body
@@ -98,8 +113,3 @@ const getHeaders = (data) => {
 };
 
 // End : Table Creation
-
-
-
-// Put last row's sort column value in the search_after array in the correct page
-

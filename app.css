@@ -196,3 +196,24 @@ div[name="sort-by-column"] {
   color: #999;
   cursor: not-allowed;
 }
+
+
+
+/* For the next and previous buttons */
+
+
+.prev-next-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#prev-page {
+  display: inline-block;
+  margin-right: auto; /* Push to the left */
+}
+
+#next-page {
+  display: inline-block;
+  margin-left: auto; /* Push to the right */
+}
