@@ -70,6 +70,8 @@ const addLastRowIdToSearchAfterIdArray = (lastElementId) => {
 
 
 nextPageBtn.addEventListener("click", async () => {
+
+  disableButtons() ;
   incrementPageNumber() ; 
   const filters = getFiltersAsArray() ; 
   const index_name = getIndexName() ; 
@@ -94,11 +96,12 @@ nextPageBtn.addEventListener("click", async () => {
     return ; 
   }
 
-  console.log("Search After Array : ", search_after) ;
-  console.log("Search After Id Array : ", search_after_id_array) ;
+  currentPaginationStatePrinter() ;
+  enableButtons() ;
 })
 
 prevPageBtn.addEventListener("click", async () => {
+  disableButtons() ;
   decrementPageNumber() ; 
   const filters = getFiltersAsArray() ; 
   const index_name = getIndexName() ; 
@@ -119,10 +122,19 @@ prevPageBtn.addEventListener("click", async () => {
     alert("Table not created : From paginationHandler.js") ; 
     return ; 
   }
-
-  console.log("Search After Array : ", search_after) ;
-  console.log("Search After Id Array : ", search_after_id_array) ;
+  currentPaginationStatePrinter() ;
+  enableButtons() ;
 })
+
+const disableButtons = () => {
+  nextPageBtn.style.disabled = true ;
+  prevPageBtn.style.disabled = true ;
+}
+
+const enableButtons = () => {
+  nextPageBtn.style.disabled = false ;
+  prevPageBtn.style.disabled = false ;
+}
 
 
 {/* <label>Select Size</label>
@@ -141,4 +153,16 @@ prevPageBtn.addEventListener("click", async () => {
 const getSizePerPage = () => {
   const selectBox = document.querySelector('#sizePerPage') ; 
   return parseInt(selectBox.value) ; 
+}
+
+
+
+const currentPaginationStatePrinter = () => {
+  console.log("*************************************************") ;
+  console.log("Page Number : ", pageNumber) ; 
+  console.log("Total Pages : ", totalPages) ; 
+  console.log("Total Hits : ", totalHits) ; 
+  console.log("Search After : ", search_after) ; 
+  console.log("Search After Id Array : ", search_after_id_array) ; 
+  console.log("*************************************************") ;
 }
