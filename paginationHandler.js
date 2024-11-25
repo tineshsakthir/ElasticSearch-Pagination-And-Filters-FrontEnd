@@ -70,14 +70,13 @@ const addLastRowIdToSearchAfterIdArray = (lastElementId) => {
 
 
 nextPageBtn.addEventListener("click", async () => {
-
   disableButtons() ;
   incrementPageNumber() ; 
   const filters = getFiltersAsArray() ; 
   const index_name = getIndexName() ; 
   const relations = getRelationsBetweenFilters() ; 
   console.log("search After Value : " ,  search_after[pageNumber-2] ) ; 
-  const requestData = {size : getSizePerPage(), index_name : index_name, filters : filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap(), search_after : search_after[pageNumber-2], search_after_id: search_after_id_array[pageNumber-2]} ; 
+  const requestData = {size : getSizePerPage(), index_name : index_name, filters : filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap(), search_after : search_after[pageNumber-2], search_after_id: search_after_id_array[pageNumber-2], pageNumber : pageNumber} ; 
   const flagToResetPagination = false ;
   const parsedData = await getResponseWithThisBody(requestData, flagToResetPagination) ; 
   if(parsedData.length){
@@ -106,7 +105,7 @@ prevPageBtn.addEventListener("click", async () => {
   const filters = getFiltersAsArray() ; 
   const index_name = getIndexName() ; 
   const relations = getRelationsBetweenFilters() ; 
-  const requestData = { size: getSizePerPage(), index_name: index_name , filters: filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap()} ;
+  const requestData = { size: getSizePerPage(), index_name: index_name , filters: filters, relations : relations, indexToColumnTypeMap : getIndexToColumnMap(), pageNumber : pageNumber} ;
   if(pageNumber !== 1){
     requestData.search_after = search_after[pageNumber-2] ;
     requestData.search_after_id = search_after_id_array[pageNumber-2] ;
