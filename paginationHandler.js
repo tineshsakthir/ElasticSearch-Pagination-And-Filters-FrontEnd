@@ -11,6 +11,8 @@ const setTotalPages = (totalPages) => {
 
 const setTotalHits = (totalHits) => {
   totalHits = totalHits ; 
+  document.getElementById("total-hits").textContent = totalHits ;
+  document.getElementById("hits-div").style.display = "block"  ;
 }
 
 const incrementPageNumber = () => {

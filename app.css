@@ -157,8 +157,9 @@ div[name="sort-by-column"] {
 
 #filter-tab .filter {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap; /* Ensure elements in the filter wrap if necessary */
   gap: 10px; /* Space between elements in the same filter */
+  width: 100%; /* Allow filters to use the full width if wrapping occurs */
 }
 
 #filter-tab .filter select {
@@ -179,7 +180,8 @@ div[name="sort-by-column"] {
 #submit-filter {
   background-color: #2575fc;
   color: #fff;
-  padding: 10px 20px;
+  margin-top: 10px;
+  padding: 10px;
   border: none;
   border-radius: 4px;
   font-size: 14px;
@@ -216,4 +218,46 @@ div[name="sort-by-column"] {
 #next-page {
   display: inline-block;
   margin-left: auto; /* Push to the right */
+}
+
+
+#hits-div{
+  width: 10vw;
+
+  align-self: flex-end;
+}
+
+
+#hits-container{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+#index_filter_sorting_div {
+  width: 29vw;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden; /* Prevent elements from visually overflowing */
+}
+
+#container_div_for_left_filters_and_right_graph{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+
+#chart_div {
+  width: 70vw; /* Reduce the width for better proportionality */
+  height: auto; /* Allow height to adjust naturally */
+}
+
+
+#myChart {
+  max-width: 100%; /* Fit within the parent container */
+  height: 400px; /* Set an appropriate height */
 }

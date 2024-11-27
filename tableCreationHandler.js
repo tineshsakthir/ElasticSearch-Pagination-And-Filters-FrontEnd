@@ -34,6 +34,7 @@ const createTable = (data, shouldDemolishCurrentFilterAndCreateNewFitler) => {
   if(shouldDemolishCurrentFilterAndCreateNewFitler){
     // Create a filter and then create the table
     createFilter(headers);
+    createTopFieldValueCountGraph(headers) ; 
   }  
 
   console.log("Reaced Create Table" ) ;

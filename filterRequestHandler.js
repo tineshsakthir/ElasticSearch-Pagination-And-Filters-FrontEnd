@@ -42,7 +42,6 @@ const getFiltersAsArray = () => {
         filters.push({ column, condition, value });
       }
     }
-
   });
 
   return filters ; 

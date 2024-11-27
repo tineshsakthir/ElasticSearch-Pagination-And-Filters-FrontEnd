@@ -1,87 +1,122 @@
-
 <!-- This is a modular code structured -->
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
 
-    <link rel="stylesheet" href="app.css">
-</head>
-<body>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
 
+    <div id="container_div_for_left_filters_and_right_graph">
+      <div id="index_filter_sorting_div">
 
+        <form id="indexChoosingForm">
+          <select id="index">
+            <!-- Index options will be dynamically added here -->
+          </select>
+          <button type="button" id="submit-index">Generate For Index</button>
+        </form>
 
-  <form id="indexChoosingForm">
-    <select id="index">
-      <!-- Index options will be dynamically added here -->
-    </select>
-    <button type="button" id="submit-index">Generate For Index</button>
-  </form>
+        <hr />
+        <div name="sort-by-column" style="display: none">
+          <label>Sort By Column:</label>
+          <select id="select-sort-column">
+            <!-- Column options will be dynamically added here -->
+          </select>
+          <br />
+          <label>Sort Type : </label>
+          <select id="select-sort-order">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
 
-  
-  <hr>
-  <div name="sort-by-column" style="display: none;">
-    <label>Sort By Column:</label>
-    <select id="select-sort-column">
-      <!-- Column options will be dynamically added here -->
-    </select>
+          <label style="display: none">Select Size</label>
+          <select style="display: none" id="sizePerPage">
+            <option value="100">100</option>
+          </select>
+        </div>
+        <hr />
 
-    <label >Sort Type</label>
-    <select id="select-sort-order">
-      <option value="asc">Ascending</option>
-      <option value="desc">Descending</option>
-    </select>
+        <!-- I am making this filter form visible at the end of the initial filter creation -->
+        <form id="filter-form" style="display: none">
+          <div id="filter-tab">
+            <!-- Filters will be dynamically added here -->
+          </div>
+    
+          <button type="button" id="submit-filter" >Apply filters</button>
+        </form>
+      </div>
 
-    <label style="display: none;">Select Size</label>
-    <select style="display: none;" id="sizePerPage">
-      <option value="100">100</option>
-    </select>
-
-  </div>
-  <hr>
-
-  <!-- I am making this filter form visible at the end of the initial filter creation -->
-  <form id="filter-form" style="display:none;">
-    <div id="filter-tab">
-      <!-- Filters will be dynamically added here -->
+      <div id="chart_div" style="display: none;">
+        <select id="select-field-for-graph" >
+          // Top FieldValueCount Options will be dynamically added here
+        </select>
+        <select id="select-fields-count-for-graph">
+          <option value="10">10</option>
+          <option value="100">100</option>
+          <option value="5">5</option>
+        </select>
+        <select id="select-top-or-bottom-fields">
+          <option value="top">Top Field Value Count</option>
+          <option value="bottom">Bottom Field Value Count</option>
+        </select>
+        <button id="submit-graph-info-to-regenerate">Generate Graph</button>
+        <div id="div-for-canvas">
+          <!-- <canvas id="myChart"></canvas> -->
+           // The above kind of canvas will be dynamically added here
+        </div>
+      </div>
+      
     </div>
-    <button type="button" id="submit-filter">Apply filters</button>
-  </form>
 
+    <hr />
 
-  <hr>
+    <div class="prev-next-div">
+      <button id="prev-page" style="display: none">Previous Page</button>
+      <button id="next-page" style="display: none">Next Page</button>
+    </div>
 
-<div class="prev-next-div">
-    <button id="prev-page" style="display:none;">Previous Page</button>
-    <button id="next-page" style="display:none;">Next Page</button>
-</div>
+    <hr />
 
+    <div id="hits-container">
+      <div id="hits-div" style="display: none">
+        <label>Total Hits:</label>
+        <span id="total-hits"> </span>
+      </div>
+    </div>
 
-  <hr>
+    <h1>Dynamic Data Table</h1>
 
-
-  <h1>Dynamic Data Table</h1>
     <table id="dataTable">
-        <thead>
-            <tr id="tableHeaders">
-                <!-- Headers will be dynamically added here -->
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be dynamically added here -->
-        </tbody>
+      <thead>
+        <tr id="tableHeaders">
+          <!-- Headers will be dynamically added here -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be dynamically added here -->
+      </tbody>
     </table>
 
- <script src="filterCreationDeleteHandler.js"></script>
- <script src="filterRequestHandler.js"></script>
- <script src="indexCreationHandler.js"></script>
- <script src="fetchIndexMappingAndCreateObject.js"></script>
- <script src="tableCreationHandler.js"></script>
- <script src="makeRequestByProvidingBody.js"></script>
-<script src="filterColumnChangeEventHandler.js"></script>
-<script src="paginationHandler.js"></script>
 
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      
+    </script>
+    
+    <script src="filterCreationDeleteHandler.js"></script>
+    <script src="filterRequestHandler.js"></script>
+    <script src="indexCreationHandler.js"></script>
+    <script src="fetchIndexMappingAndCreateObject.js"></script>
+    <script src="tableCreationHandler.js"></script>
+    <script src="makeRequestByProvidingBody.js"></script>
+    <script src="filterColumnChangeEventHandler.js"></script>
+    <script src="paginationHandler.js"></script>
+    <script src="graphContentHandler.js"></script>
+    <script src="makeGraphRequests.js"></script>
+  </body>
 </html>
